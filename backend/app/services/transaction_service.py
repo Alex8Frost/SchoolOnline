@@ -9,11 +9,31 @@ class TransactionService:
     def __init__(self, db: Session):
         self.db = db
     
-    async def get_user_transactions(self, user_id: str):
-        transactions = self.db.query(Transaction).filter(
+    async def get_user_transactions(
+        self, 
+        user_id: str, 
+        transaction_type: str = None, 
+        category_id: UUID = None, 
+        start_date: str = None, 
+        end_date: str = None
+    ):
+        query = self.db.query(Transaction).filter(
             Transaction.user_id == UUID(user_id)
-        ).all()
-        return transactions
+        )
+        
+        if transaction_type:
+            query = query.filter(Transaction.type == transaction_type)
+        
+        if category_id:
+            query = query.filter(Transaction.category_id == category_id)
+            
+        if start_date:
+            query = query.filter(Transaction.transaction_date >= start_date)
+            
+        if end_date:
+            query = query.filter(Transaction.transaction_date <= end_date)
+            
+        return query.order_by(Transaction.transaction_date.desc()).all()
     
     async def create_transaction(self, transaction_data: TransactionCreate, user_id: str):
         new_transaction = Transaction(

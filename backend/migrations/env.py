@@ -8,7 +8,7 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from app.db import Base
-from app.models import user, transaction, category
+from app.models import user, transaction, category, investment, budget, goal
 from app.config import settings
 
 config = context.config
