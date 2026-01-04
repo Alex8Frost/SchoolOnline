@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
-from app.api.endpoints import auth, transactions, categories
+from app.api.endpoints import auth, transactions, categories, investments, budgets, goals, ai, analytics
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -36,3 +36,8 @@ async def health_check():
 app.include_router(auth.router, prefix=settings.API_V1_PREFIX)
 app.include_router(transactions.router, prefix=settings.API_V1_PREFIX)
 app.include_router(categories.router, prefix=settings.API_V1_PREFIX)
+app.include_router(investments.router, prefix=settings.API_V1_PREFIX)
+app.include_router(budgets.router, prefix=settings.API_V1_PREFIX)
+app.include_router(goals.router, prefix=settings.API_V1_PREFIX)
+app.include_router(ai.router, prefix=settings.API_V1_PREFIX)
+app.include_router(analytics.router, prefix=settings.API_V1_PREFIX)
